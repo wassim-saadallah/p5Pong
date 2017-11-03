@@ -10,9 +10,7 @@ function setup() {
     createCanvas(600, 400);
     ball = new Ball(width / 2, height / 2, 30);
     ballDir = random(-7, 7);
-    ball.vel = createVector(ballDir, ballDir);
-    //ball.vel = createVector(5, 0);
-    ball.vel.setMag(ballSpeed);
+    ball.vel = createVector(0, 0);
     left_pad = new Pad(5, height / 2, 50);
     right_pad = new Pad(width - 5, height / 2, 50);
 
@@ -21,7 +19,8 @@ function setup() {
                 down arrow : down`);
     createP(`LEFT PLAYER:<br/>
                 up arrow : Q<br/>
-                down arrow : W`)
+                down arrow : W`);
+    createP(`Press SPACEBAR to start a game`);
 }
 
 
@@ -39,8 +38,8 @@ function draw() {
     right_pad.show();
     strokeWeight(1);
     textSize(30);
-    text(scoreA, 40, 40);
-    text(scoreB, width - 60, 40);
+    text(scoreB, 40, 40);
+    text(scoreA, width - 60, 40);
 
 
     //end game
@@ -86,10 +85,10 @@ function controls() {
             right_pad.update(3);
         }
     }
-    else if(right_pad.pos.y + (right_pad.h) >= height){
+    else if (right_pad.pos.y + (right_pad.h) >= height) {
         right_pad.pos.y -= 1;
     }
-    else if  (right_pad.pos.y - (right_pad.h) <= 0){
+    else if (right_pad.pos.y - (right_pad.h) <= 0) {
         right_pad.pos.y += 1;
     }
     if ((left_pad.pos.y + (left_pad.h) < height) && (left_pad.pos.y - (left_pad.h) > 0)) {
@@ -101,10 +100,10 @@ function controls() {
         }
     }
     else if (left_pad.pos.y + (left_pad.h) >= height) {
-        left_pad.pos.y -=1;
+        left_pad.pos.y -= 1;
     }
-    else if(left_pad.pos.y - (left_pad.h) <= 0){
-        left_pad.pos.y +=1;
+    else if (left_pad.pos.y - (left_pad.h) <= 0) {
+        left_pad.pos.y += 1;
     }
 }
 
@@ -115,24 +114,24 @@ function collisionDectection() {
 
     if ((ball.pos.x + 15 > right_pad.pos.x) &&
         ((ball.pos.y + 30 > right_pad.pos.y - (right_pad.h / 2)) && (ball.pos.y - 30 < right_pad.pos.y + (right_pad.h / 2)))) {
-            if (keyIsDown(UP_ARROW)) {
-                ball.collidePad(1);
-            }
-            else if (keyIsDown(DOWN_ARROW)) {
-                ball.collidePad(-1);
-            }else ball.collidePad();
-        
+        if (keyIsDown(UP_ARROW)) {
+            ball.collidePad(1);
+        }
+        else if (keyIsDown(DOWN_ARROW)) {
+            ball.collidePad(-1);
+        } else ball.collidePad();
+
     }
 
     if ((ball.pos.x - 15 < left_pad.pos.x) &&
         ((ball.pos.y + 30 > left_pad.pos.y - (left_pad.h / 2)) && (ball.pos.y - 30 < left_pad.pos.y + (left_pad.h / 2)))) {
-            if (keyIsDown(81)) {
-                ball.collidePad(1);
-            }
-            else if (keyIsDown(87)) {
-                ball.collidePad(-1);
-            }
-            else ball.collidePad();
+        if (keyIsDown(81)) {
+            ball.collidePad(1);
+        }
+        else if (keyIsDown(87)) {
+            ball.collidePad(-1);
+        }
+        else ball.collidePad();
     }
 }
 
@@ -181,7 +180,7 @@ class Ball {
 
     collidePad(dir) {
         this.vel.x *= -1;
-        if(dir)
-        this.vel.y *= 1+random(dir);
+        if (dir)
+            this.vel.y *= 1 + random(dir);
     }
 }
